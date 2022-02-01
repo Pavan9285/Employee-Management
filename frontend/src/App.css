@@ -14,11 +14,21 @@
   background-color: skyblue;
 }
 
-.footer{
-  position: absolute;
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.content-wrap {
+  padding-bottom: 2.5rem;    /* Footer height */
+}
+
+.footer {
+  position: fixed;
   bottom: 0;
-  text-align: center;
   width: 100%;
+  text-align: center;
+  height: 2.5rem;            /* Footer height */
   background-color: skyblue;
 }
 
@@ -40,3 +50,7 @@ label {
 input, label {
   float:left;
 }
+
+
+
+

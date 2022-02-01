@@ -1,12 +1,42 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export default function Nav() {
     return (
         <div>
             <ul className='nav-ul'>
-                <li><Link to="/">Employees</Link></li>
-                <li><Link to="/add">Add Employee</Link></li>
-                <li><Link to="/update">Update Employee</Link></li>
+                <li>
+                    <NavLink to="/"
+                        style={({ isActive }) => {
+                            return {
+                                color: isActive ? "yellow" : "black"
+                            }
+                        }}
+                    >
+                        Employees
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink to="/add"
+                        style={({ isActive }) => {
+                            return {
+                                color: isActive ? "yellow" : "black"
+                            }
+                        }}
+                    >
+                        Add Employee
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink to="/update"
+                        style={({ isActive }) => {
+                            return {
+                                color: isActive ? "yellow" : "black"
+                            }
+                        }}
+                    >
+                        Update Employee
+                    </NavLink>
+                </li>
             </ul>
         </div>
     )

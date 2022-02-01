@@ -7,15 +7,17 @@ import Employees from './pages/employees';
 
 function App() {
   return (
-    <div>
-      <BrowserRouter>
-        <Nav />
-        <Routes>
-          <Route path="/" element={<Employees />} />
-          <Route path="/add" element={<AddEmployee />} />
-          <Route path="/update" element={<h1>update Pavan</h1>} />
-        </Routes>
-      </BrowserRouter>
+    <div id="page-container">
+      <div className='content-wrap'>
+        <BrowserRouter>
+          <Nav />
+          <Routes>
+            <Route path="/" element={<Employees />} />
+            <Route path="/add" element={<AddEmployee />} />
+            <Route path="/update" element={<h1>update Pavan</h1>} />
+          </Routes>
+        </BrowserRouter>
+      </div>
       <Footer />
     </div>
   );
