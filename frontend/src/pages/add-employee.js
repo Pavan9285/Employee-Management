@@ -7,7 +7,7 @@ export default function AddEmployee() {
         name: "",
         departmet: "Technology",
         gender: "male",
-        date: "",
+        bod: "",
         joining_date: "",
         prev_experience: "",
         salary: "",
@@ -84,8 +84,8 @@ export default function AddEmployee() {
 
                     <div className="mb-3">
                         <label>BOD</label>
-                        <input type="date"
-                            name="date" value={employee.date}
+                        <input type="bod"
+                            name="bod" value={employee.bod}
                             onChange={handleChange}
                         />
                     </div>
