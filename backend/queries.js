@@ -1,4 +1,7 @@
-const { Pool } = require('pg')
+const express = require("express");
+const router = express.Router();
+const { Pool } = require('pg');
+
 // We can ommit this database option if no database present.
 // after creating database we have to add here
 const pool = new Pool({
@@ -34,17 +37,17 @@ function createDatabase() {
 function createEmployeeTable() {
     const sql = `
     CREATE TABLE IF NOT EXISTS "employee" (
-	    "id" SERIAL,
-        "code" VARCHAR(100) NOT NULL,
-        "name" VARCHAR(100) NOT NULL,
-        "departmet" VARCHAR(100) NOT NULL,
-        "gender" VARCHAR(100) NOT NULL,
+	    id SERIAL,
+        code VARCHAR(100) NOT NULL,
+        name VARCHAR(100) NOT NULL,
+        departmet VARCHAR(100) NOT NULL,
+        gender VARCHAR(100) NOT NULL,
         bod TIMESTAMPTZ,
         joining_date TIMESTAMPTZ,
-        "prev_experience" INT,
-        "salary" INT,
-        "address" VARCHAR(255) NOT NULL,
-	    PRIMARY KEY ("id")
+        prev_experience INT,
+        salary INT,
+        address VARCHAR(255) NOT NULL,
+	    PRIMARY KEY (id)
     );`;
 
     pool.query(sql, (err, result) => {
@@ -56,17 +59,47 @@ function createEmployeeTable() {
     })
 }
 
-const getUsers = (request, response) => {
-    pool.query('SELECT * FROM employee', (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).json(results.rows)
+router.get('/employees', (req, res) => {
+    let query = `SELECT * FROM employee`;
+    pool.query(query, (err, result) => {
+        !err ? res.status(200).send(result.rows) : res.status(500).send('error in employee get');
     })
-}
+});
+
+router.post('/register', (req, res) => {
+    // console.log(req.body);
+    const { code, name, departmet, gender, bod, joining_date, prev_experience, salary, address } = req.body;
+    let query = `insert into employee(code,name,departmet,gender,bod,joining_date,prev_experience,
+        salary,address)values('${code}',
+        '${name}','${departmet}',
+        '${gender}','${bod}',
+        '${joining_date}','${prev_experience}',
+        '${salary}','${address}')`;
+
+    pool.query(query, (err, result) => {
+        !err ? res.status(200).send(result.rows) : res.status(500).send('error in employee inerting..')
+    })
+});
+
+router.put('/register', (req, res) => {
+    const { id, code, name, departmet, gender, bod, joining_date, prev_experience, salary, address } = req.body;
+    let query = `update employee set code='${code}',name='${name}',departmet='${departmet}',
+    gender='${gender}',bod='${bod}',joining_date='${joining_date}',
+    prev_experience='${prev_experience}',salary='${salary}',address='${address}'
+    where id='${id}';`
+
+    pool.query(query, (err, result) => {
+        !err ? res.status(200).send(result) : res.status(500).send('error in employee updating...')
+    })
+});
+
+router.delete("/register/delete/:id", (req, res) => {
+    let query = `delete from employee WHERE id='${req.params.id}';`
+    pool.query(query, (err, result) => {
+        !err ? res.status(200).send(result) : res.status(500).send('error in employee deleting...')
+    })
+});
 
 createConnection();
 
-module.exports = {
-    getUsers
-}
+module.exports = router;
