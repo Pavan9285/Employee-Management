@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 export default function AddEmployee() {
 
+    const API = 'http://localhost:5000'
+
     const [employee, setEmployee] = useState({
         code: "",
         name: "",
@@ -14,22 +16,49 @@ export default function AddEmployee() {
         address: ""
     })
 
-
+    const [posted, setPosted] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        alert(JSON.stringify(employee))
-        // doFetch({
-        //     method: "post",
-        //     body: JSON.stringify({
-        //         article: {
-        //             title: article.title,
-        //             body: article.body,
-        //             description: article.description,
-        //             tagList: article.tags.split(",")
-        //         }
-        //     })
-        // })
+        fetch(`${API}/register`, {
+            method: 'post',
+            body: JSON.stringify({
+                code: employee.code,
+                name: employee.name,
+                departmet: employee.departmet,
+                gender: employee.gender,
+                bod: employee.bod,
+                joining_date: employee.joining_date,
+                prev_experience: employee.prev_experience,
+                salary: employee.salary,
+                address: employee.address
+            }),
+            headers: {
+                "Content-type": "application/json",
+            }
+        }).then(res => {
+            return res.json()
+        }).then(json => {
+            if (json.errors) return;
+            setPosted(true);
+
+            // reset the form
+            setEmployee({
+                code: "",
+                name: "",
+                departmet: "Technology",
+                gender: "male",
+                bod: "",
+                joining_date: "",
+                prev_experience: "",
+                salary: "",
+                address: ""
+            })
+
+            setTimeout(() => {
+                setPosted(false);
+            }, 3000)
+        })
     }
 
     const handleChange = (e) => {
@@ -39,12 +68,22 @@ export default function AddEmployee() {
         })
     }
 
+    const dStyle = {
+        display: 'grid',
+        justifyContent: 'center'
+    }
+
+    const successStyle = {
+        backgroundColor: 'green',
+        color: 'yellow'
+    }
+
     return (
-        <div className='text-center' style={{ display: 'grid', justifyContent: 'center' }}>
+        <div className='text-center' style={dStyle}>
             <form onSubmit={handleSubmit}>
                 <fieldset>
                     <legend><h3 style={{ color: 'orange' }}>Add Employee</h3></legend>
-
+                    {posted && <div style={successStyle}>Employee register successfully!</div>}
                     <div className="mb-3">
                         <label>Emp Code</label>
                         <input type="text"
@@ -84,7 +123,7 @@ export default function AddEmployee() {
 
                     <div className="mb-3">
                         <label>BOD</label>
-                        <input type="bod"
+                        <input type="date"
                             name="bod" value={employee.bod}
                             onChange={handleChange}
                         />

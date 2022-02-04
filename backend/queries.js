@@ -67,7 +67,6 @@ router.get('/employees', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-    // console.log(req.body);
     const { code, name, departmet, gender, bod, joining_date, prev_experience, salary, address } = req.body;
     let query = `insert into employee(code,name,departmet,gender,bod,joining_date,prev_experience,
         salary,address)values('${code}',
@@ -77,7 +76,7 @@ router.post('/register', (req, res) => {
         '${salary}','${address}')`;
 
     pool.query(query, (err, result) => {
-        !err ? res.status(200).send(result.rows) : res.status(500).send('error in employee inerting..')
+        !err ? res.status(200).send(result) : res.status(500).send('error in employee inerting..')
     })
 });
 
