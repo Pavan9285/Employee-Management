@@ -13,8 +13,9 @@ function App() {
           <Nav />
           <Routes>
             <Route path="/" element={<Employees />} />
-            <Route path="/add" element={<AddEmployee />} />
-            <Route path="/update" element={<h1>update Pavan</h1>} />
+            <Route path="/employee/add" element={<AddEmployee />} />
+            <Route path="/employee/:id/edit"
+              element={<AddEmployee />} />
           </Routes>
         </BrowserRouter>
       </div>

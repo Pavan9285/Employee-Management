@@ -42,8 +42,8 @@ function createEmployeeTable() {
         name VARCHAR(100) NOT NULL,
         departmet VARCHAR(100) NOT NULL,
         gender VARCHAR(100) NOT NULL,
-        bod TIMESTAMPTZ,
-        joining_date TIMESTAMPTZ,
+        bod DATE,
+        joining_date DATE,
         prev_experience INT,
         salary INT,
         address VARCHAR(255) NOT NULL,
@@ -62,7 +62,7 @@ function createEmployeeTable() {
 router.get('/employees', (req, res) => {
     let query = `SELECT * FROM employee`;
     pool.query(query, (err, result) => {
-        !err ? res.status(200).send(result.rows) : res.status(500).send('error in employee get');
+        !err ? res.status(200).send(result.rows) : res.status(500).send(err.message);
     })
 });
 
@@ -76,11 +76,12 @@ router.post('/register', (req, res) => {
         '${salary}','${address}')`;
 
     pool.query(query, (err, result) => {
-        !err ? res.status(200).send(result) : res.status(500).send('error in employee inerting..')
+        !err ? res.status(200).send(result) : res.status(500).send(err.message)
     })
 });
 
 router.put('/register', (req, res) => {
+    // console.log("req body:", req.body);
     const { id, code, name, departmet, gender, bod, joining_date, prev_experience, salary, address } = req.body;
     let query = `update employee set code='${code}',name='${name}',departmet='${departmet}',
     gender='${gender}',bod='${bod}',joining_date='${joining_date}',
@@ -88,16 +89,23 @@ router.put('/register', (req, res) => {
     where id='${id}';`
 
     pool.query(query, (err, result) => {
-        !err ? res.status(200).send(result) : res.status(500).send('error in employee updating...')
+        !err ? res.status(200).send(result) : res.status(500).send(err.message)
     })
 });
 
-router.delete("/register/delete/:id", (req, res) => {
+router.delete("/employee/delete/:id", (req, res) => {
     let query = `delete from employee WHERE id='${req.params.id}';`
     pool.query(query, (err, result) => {
-        !err ? res.status(200).send(result) : res.status(500).send('error in employee deleting...')
+        !err ? res.status(200).send(result) : res.status(500).send(err.message)
     })
 });
+
+router.get("/employees/:id", (req, res) => {
+    let query = `select * from employee where id=${req.params.id}`;
+    pool.query(query, (err, result) => {
+        !err ? res.status(200).send(result.rows) : res.status(500).send(err.message)
+    })
+})
 
 createConnection();
 

@@ -16,7 +16,7 @@ export default function Nav() {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/add"
+                    <NavLink to="/employee/add"
                         style={({ isActive }) => {
                             return {
                                 color: isActive ? "yellow" : "black"
@@ -24,17 +24,6 @@ export default function Nav() {
                         }}
                     >
                         Add Employee
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/update"
-                        style={({ isActive }) => {
-                            return {
-                                color: isActive ? "yellow" : "black"
-                            }
-                        }}
-                    >
-                        Update Employee
                     </NavLink>
                 </li>
             </ul>
