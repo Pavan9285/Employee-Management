@@ -1,5 +1,3 @@
-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
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
